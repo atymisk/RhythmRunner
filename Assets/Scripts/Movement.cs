@@ -2,18 +2,20 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
-
+	//debug variables
 	public bool debug = false;
 	long memcheck;
 	System.Diagnostics.Stopwatch timestamper;
 
+	//defined in Start()
 	bool sliding;//prevent INF sliding
-	float slideCheck;
 	bool grounded;//preventing INF jumps
-	float collider_x;
+	float slideCheck;
+	float collider_x;//initial collider sizes
 	float collider_y;
-	float init_speed;
+	float init_speed;//intial speed
 
+	//public globals
 	public float speed = 1.0f;
 	public float jumpspeed = 3.0f;
 	public float slideDuration = 1.5f;
@@ -47,6 +49,7 @@ public class Movement : MonoBehaviour {
 		float x,y;
 		x=rigidbody2D.velocity.x;
 		y=rigidbody2D.velocity.y;
+		//for debugging of memory allocation if any problems occur
 		if(debug)
 		{
 			if(System.GC.GetTotalMemory(false) < memcheck)
@@ -56,6 +59,7 @@ public class Movement : MonoBehaviour {
 				timestamper.Start ();
 			}
 		}
+
 		if(sliding)
 		{
 			slideCheckTest();
@@ -97,14 +101,12 @@ public class Movement : MonoBehaviour {
 		if(sliding)
 		{
 			slideCheck += Time.deltaTime;
-			if(debug){print (slideCheck);}
 		}
 		else
 		{
 			slideCheck = 0;
 			speed = init_speed;
 			collider2D.transform.localScale = new Vector2(collider_x,collider_y);
-			//print (slideCheck);
 		}
 	}
 
